@@ -11,10 +11,10 @@ export default function Choose() {
         <div className="w-full flex flex-col gap-[28px]">
           {/* Top Section */}
           <div className="flex flex-col gap-[12px]">
-            <h1 className="font-abeezee font-[400] text-[32px] md:text-[52px] leading-[96%] tracking-[-0.83px] text-[#D8A85B]">
+            <h1 className="font-abeezee font-normal text-[32px] md:text-[52px] leading-[96%] tracking-[-0.83px] text-[#D8A85B]">
               Why Choose Us?
             </h1>
-            <p className="font-poppins font-[400] text-[16px] leading-[100%] text-[#000000]">
+            <p className="font-poppins font-normal text-[16px] leading-[100%] text-[#000000]">
               Your pet’s health and well-being are our top priority.
             </p>
           </div>

@@ -8,7 +8,6 @@ import Testimonials from "../components/testimonals";
 import NeedToKnow from "../components/needToKnow";
 import Delivery from "../components/delivery";
 import Footer from "../components/footer";
-import Test from "../components/test";
 
 export default function Home() {
   return (
@@ -19,7 +18,6 @@ export default function Home() {
       <Choose />
       <Products />
       <Testimonials />
-      {/* <Test /> */}
       <NeedToKnow />
       <Delivery />
       <Footer />
