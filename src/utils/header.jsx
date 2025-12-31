@@ -6,6 +6,13 @@ import { Link } from "react-router-dom";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const menuItems = [
+    { label: "Home", path: "/" },
+    { label: "Shop", path: "/shop" },
+    { label: "Blogs", path: "/blogs" },
+    { label: "Contact us", path: "/contact-us" },
+  ];
+
   return (
     <header className="w-full relative z-50">
       {/* FULL WIDTH BACKGROUND */}
@@ -29,8 +36,8 @@ export default function Header() {
             <Link to="/shop" className="text-gray-800 hover:text-[#D8A85B]">
               Shop
             </Link>
-            <Link to="/blogs" className="text-gray-800 hover:text-[#D8A85B]">
-              Blogs
+            <Link to="/account" className="text-gray-800 hover:text-[#D8A85B]">
+              Account
             </Link>
             <Link to="/contact" className="text-gray-800 hover:text-[#D8A85B]">
               Contact us
@@ -40,14 +47,14 @@ export default function Header() {
           {/* ACTIONS */}
           <div className="hidden md:flex items-center gap-4">
             <Link to="/login">
-            <button className="bg-[#4C9E84] text-white px-4 py-2 rounded-3xl text-sm sm:text-base">
-              Sign In
-            </button>
+              <button className="bg-[#4C9E84] text-white px-4 py-2 rounded-3xl text-sm sm:text-base">
+                Sign In
+              </button>
             </Link>
             <Link to="/cart">
-            <button className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
-              <img src="/icons/cart.png" alt="Cart" className="w-4 sm:w-6" />
-            </button>
+              <button className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
+                <img src="/icons/cart.png" alt="Cart" className="w-4 sm:w-6" />
+              </button>
             </Link>
           </div>
 
@@ -70,20 +77,21 @@ export default function Header() {
           ${menuOpen ? "translate-y-0" : "-translate-y-full"}
         `}
       >
-        {["Home", "Shop", "Blogs", "Contact us"].map((item) => (
+        {menuItems.map((item) => (
           <Link
-            key={item}
-            to={`/${item.toLowerCase().replace(" ", "-")}`}
+            key={item.label}
+            to={item.path}
             className="text-lg"
             onClick={() => setMenuOpen(false)}
           >
-            {item}
+            {item.label}
           </Link>
         ))}
 
         {/* MOBILE BUTTON (ADDED) */}
-        <button
-          className="
+        <Link to="/login">
+          <button
+            className="
             mt-6
             px-6 py-3
             bg-[#4C9E84]
@@ -92,10 +100,17 @@ export default function Header() {
             text-sm
             font-semibold
           "
-          onClick={() => setMenuOpen(false)}
-        >
-          SIGN IN
-        </button>
+            onClick={() => setMenuOpen(false)}
+          >
+            SIGN IN
+          </button>
+        </Link>
+
+        <Link to="/cart">
+          <button className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
+            <img src="/icons/cart.png" alt="Cart" className="w-4 sm:w-6" />
+          </button>
+        </Link>
       </div>
     </header>
   );
