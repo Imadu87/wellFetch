@@ -9,7 +9,7 @@ export default function Header() {
   const menuItems = [
     { label: "Home", path: "/" },
     { label: "Shop", path: "/shop" },
-    { label: "Blogs", path: "/blogs" },
+    { label: "Account", path: "/account/profile" },
     { label: "Contact us", path: "/contact-us" },
   ];
 
