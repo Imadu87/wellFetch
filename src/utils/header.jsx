@@ -1,24 +1,17 @@
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="w-full  relative z-50 ">
+    <header className="w-full relative z-50">
       {/* FULL WIDTH BACKGROUND */}
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-20 3xl:px-32">
         {/* CONTENT CONTAINER */}
-        <div
-          className="
-        mx-auto
-        w-full
-      
-        flex items-center justify-between
-        py-3
-      "
-        >
+        <div className="mx-auto w-full flex items-center justify-between py-3">
           {/* LOGO */}
           <div className="flex items-center">
             <img
@@ -29,29 +22,33 @@ export default function Header() {
           </div>
 
           {/* NAVIGATION */}
-          <nav className="hidden md:flex gap-4 lg:gap-6 xl:gap-8">
-            <a href="#" className="text-gray-800 hover:text-blue-600">
+          <nav className="hidden md:flex gap-4 lg:gap-6 xl:gap-8 uppercase">
+            <Link to="/" className="text-[#D8A85B] hover:text-[#D8A85B]">
               Home
-            </a>
-            <a href="#" className="text-gray-800 hover:text-blue-600">
-              About
-            </a>
-            <a href="#" className="text-gray-800 hover:text-blue-600">
-              Services
-            </a>
-            <a href="#" className="text-gray-800 hover:text-blue-600">
-              Contact
-            </a>
+            </Link>
+            <Link to="/shop" className="text-gray-800 hover:text-[#D8A85B]">
+              Shop
+            </Link>
+            <Link to="/blogs" className="text-gray-800 hover:text-[#D8A85B]">
+              Blogs
+            </Link>
+            <Link to="/contact" className="text-gray-800 hover:text-[#D8A85B]">
+              Contact us
+            </Link>
           </nav>
 
           {/* ACTIONS */}
           <div className="hidden md:flex items-center gap-4">
+            <Link to="/login">
             <button className="bg-[#4C9E84] text-white px-4 py-2 rounded-3xl text-sm sm:text-base">
               Sign In
             </button>
+            </Link>
+            <Link to="/cart">
             <button className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
-              <img src="/icons/cart.png" alt="Cart" className="w-6 sm:w-8" />
+              <img src="/icons/cart.png" alt="Cart" className="w-4 sm:w-6" />
             </button>
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
@@ -73,15 +70,15 @@ export default function Header() {
           ${menuOpen ? "translate-y-0" : "-translate-y-full"}
         `}
       >
-        {["Home", "About", "Services", "Contact"].map((item) => (
-          <a
+        {["Home", "Shop", "Blogs", "Contact us"].map((item) => (
+          <Link
             key={item}
-            href="#"
+            to={`/${item.toLowerCase().replace(" ", "-")}`}
             className="text-lg"
             onClick={() => setMenuOpen(false)}
           >
             {item}
-          </a>
+          </Link>
         ))}
 
         {/* MOBILE BUTTON (ADDED) */}

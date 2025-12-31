@@ -10,8 +10,8 @@ export default function Hero() {
   //   <div className="w-full flex justify-center bg-amber-400">jfajsdfklasdj</div>
   // );
   return (
-    <section className="w-full flex justify-center ">
-      <div className="w-full flex flex-col gap-6 sm:gap-8 pb-6 sm:pb-10">
+    <section className="w-full flex justify-center">
+      <div className="w-full flex flex-col gap-6 sm:gap-8 pb-6 sm:pb-10 mt-14">
         <div className="w-full flex justify-center">
           <div className="w-full">
             <Swiper

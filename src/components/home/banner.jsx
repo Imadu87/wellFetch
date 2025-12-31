@@ -6,11 +6,7 @@ export default function Banner() {
     <section className="w-full flex justify-center">
       {/* Container */}
       <div
-        className=" w-full flex flex-col relative bg-[#AB345C]
-    px-4 sm:px-10 lg:px-24
-    pt-20 sm:pt-28 md:pt-36
-    pb-16 sm:pb-20 md:pb-24
-  "
+        className="w-full flex flex-col relative bg-[#AB345C] px-4 sm:px-10 lg:px-24 pt-20 sm:pt-28 md:pt-36 pb-16 sm:pb-20 md:pb-24"
         style={{
           backgroundImage: "url('/banner/Paws.png')",
           backgroundSize: "cover",
@@ -22,14 +18,7 @@ export default function Banner() {
         <img
           src="/banner/Dog.png"
           alt="Left Decoration"
-          className="
-            absolute bottom-0 left-0
-    w-[35%] sm:w-[28%] md:w-[22%] lg:w-[20%]
-    max-h-[85%]
-    object-contain
-    pointer-events-none
-          "
-        />
+          className="absolute bottom-0 left-0 w-[35%] sm:w-[28%] md:w-[22%] lg:w-[20%] max-h-[85%] object-contain pointer-events-none"/>
 
         {/* Content container */}
         <div className="w-full flex flex-col gap-4 sm:gap-6 md:gap-8 items-center text-center px-4 sm:px-10 md:px-16">

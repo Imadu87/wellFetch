@@ -1,18 +1,15 @@
 import React from "react";
-import Header from "../components/header";
-import Hero from "../components/hero";
-import Banner from "../components/banner";
-import Choose from "../components/chooseus";
-import Products from "../components/products";
-import Testimonials from "../components/testimonals";
-import NeedToKnow from "../components/needToKnow";
-import Delivery from "../components/delivery";
-import Footer from "../components/footer";
+import Hero from "../components/home/hero";
+import Banner from "../components/home/banner";
+import Choose from "../components/home/chooseus";
+import Products from "../components/home/products";
+import Testimonials from "../components/home/testimonals";
+import NeedToKnow from "../components/home/needToKnow";
+import Delivery from "../components/home/delivery";
 
 export default function Home() {
   return (
     <div>
-      <Header />
       <Hero />
       <Banner />
       <Choose />
@@ -20,7 +17,6 @@ export default function Home() {
       <Testimonials />
       <NeedToKnow />
       <Delivery />
-      <Footer />
     </div>
   );
 }
