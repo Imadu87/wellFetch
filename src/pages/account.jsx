@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 export default function Account() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -61,19 +61,31 @@ export default function Account() {
               <h2 className="font-semibold mb-2">Manage My Account</h2>
               <ul className="flex flex-col gap-2 pl-3 text-sm">
                 <li>
-                  <Link to="profile" className="text-[#D8A85B]">
+                  <NavLink to="profile" className={({ isActive }) =>
+                    isActive
+                      ? "text-[#D8A85B]"
+                      : "text-gray-600"
+                  }>
                     My Profile
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="address" className="text-gray-600">
+                  <NavLink to="address" className={({ isActive }) =>
+                    isActive
+                      ? "text-[#D8A85B]"
+                      : "text-gray-600"
+                  }>
                     Address Book
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="payment" className="text-gray-600">
+                  <NavLink to="payment" className={({ isActive }) =>
+                    isActive
+                      ? "text-[#D8A85B]"
+                      : "text-gray-600"
+                  }>
                     Payment Options
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
             </div>

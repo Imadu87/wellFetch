@@ -3,8 +3,13 @@ import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { BsMicrosoft } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginSuccess } from "../redux/slices/authSlice";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -21,7 +26,13 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    const fakeUser = {
+      email: formData.email,
+    };
+
+    dispatch(loginSuccess(fakeUser)); 
+    navigate("/"); 
   };
 
   return (
@@ -30,7 +41,7 @@ export default function Login() {
       <header className="w-full bg-[#D8A85B] shadow-sm py-3 sm:py-4 md:py-5">
         <div className="px-4 sm:px-6 md:px-8 flex items-center justify-center">
           <img
-            src="/logos/logo.png"
+            src="/logos/Logo_1.png"
             alt="Wellfetch Logo"
             className="h-9 sm:h-11 md:h-12 w-auto object-contain"
           />
@@ -127,7 +138,6 @@ export default function Login() {
             </div>
 
             {/* LOGIN BUTTON */}
-            <Link to="/">
               <button
                 type="submit"
                 className="w-full bg-[#D8A85B] hover:bg-[#c4945a] text-white
@@ -140,7 +150,6 @@ export default function Login() {
               >
                 Login
               </button>
-            </Link>
 
             {/* DIVIDER */}
             <div className="flex items-center gap-3 sm:gap-4">

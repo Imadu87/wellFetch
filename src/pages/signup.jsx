@@ -38,7 +38,7 @@ export default function Signup() {
       <header className="w-full bg-[#D8A85B] shadow-sm py-3 sm:py-4 md:py-5">
         <div className="px-4 sm:px-6 md:px-8 flex items-center justify-center">
           <img
-            src="/logos/logo.png"
+            src="/logos/Logo_1.png"
             alt="Wellfetch Logo"
             className="h-9 sm:h-11 md:h-12 w-auto object-contain"
           />
