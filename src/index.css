@@ -1,2 +1,12 @@
 @import "tailwindcss";
 
+@layer utilities {
+  .font-poppins {
+    font-family: "Poppins", sans-serif;
+  }
+
+  .font-abeezee {
+    font-family: "ABeeZee", sans-serif;
+  }
+}
+

@@ -9,7 +9,7 @@ import Delivery from "../components/home/delivery";
 
 export default function Home() {
   return (
-    <div>
+    <div className="mt-20">
       <Hero />
       <Banner />
       <Choose />

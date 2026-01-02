@@ -2,7 +2,7 @@ import React from "react";
 import ProductDetails from "../components/purchasing/productDetails";
 
 export default function Purchasing() {
-    return <div>
+    return <div className="mt-20">
         <ProductDetails />
     </div>;
 }

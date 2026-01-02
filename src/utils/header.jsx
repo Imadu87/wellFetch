@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { logout } from "../redux/slices/authSlice";
 
 export default function Header() {
@@ -19,7 +19,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="w-full relative z-50">
+    <header className="fixed w-full bg-white top-0 z-100">
       {/* FULL WIDTH BACKGROUND */}
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-20 3xl:px-32">
         {/* CONTENT CONTAINER */}
@@ -36,7 +36,7 @@ export default function Header() {
           </div>
 
           {/* NAVIGATION */}
-          <nav className="hidden md:flex gap-4 lg:gap-6 xl:gap-8 uppercase">
+          <nav className="hidden md:flex gap-4 lg:gap-6 xl:gap-8 uppercase md:text-sm lg:text-lg">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -92,7 +92,7 @@ export default function Header() {
               /* LOGGED IN */
               <div className="relative group">
                 {/* USER ICON */}
-                <FaUserCircle className="w-7 h-7 cursor-pointer text-gray-800" />
+                <FaRegUser className="w-6 h-6 cursor-pointer text-gray-800" />
 
                 {/* DROPDOWN */}
                 <div
@@ -125,7 +125,7 @@ export default function Header() {
             {/* CART */}
             <Link to="/cart">
               <button className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
-                <img src="/icons/cart.png" alt="Cart" className="w-4 sm:w-6" />
+                <img src="/icons/cart.png" alt="Cart" className="w-6  h-6" />
               </button>
             </Link>
           </div>

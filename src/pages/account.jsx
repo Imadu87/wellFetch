@@ -5,7 +5,7 @@ export default function Account() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <section className="w-full flex flex-col gap-6 px-4 sm:px-6 lg:px-10 xl:px-16 py-6">
+    <section className="w-full flex flex-col gap-6 px-4 sm:px-6 lg:px-10 xl:px-16 py-6 mt-20">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm">
         <Link to="/" className="text-gray-500 hover:text-black">

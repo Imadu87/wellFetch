@@ -23,7 +23,7 @@ export default function Banner() {
         {/* Content container */}
         <div className="w-full flex flex-col gap-4 sm:gap-6 md:gap-8 items-center text-center px-4 sm:px-10 md:px-16">
           {/* Headline */}
-          <h1 className="text-[28px] sm:text-[48px] md:text-[64px] lg:text-[80px] leading-[1.1] sm:leading-[1.0] md:leading-[1.0] tracking-[-0.4px] sm:tracking-[-0.7px] md:tracking-[-0.83px] font-normal font-abeezee text-[#D8A85B]">
+          <h1 className="font-ABeeZee text-[28px] sm:text-[48px] md:text-[64px] lg:text-[80px] leading-[1.1] sm:leading-[1.0] md:leading-[1.0] tracking-[-0.4px] sm:tracking-[-0.7px] md:tracking-[-0.83px] font-normal font-abeezee text-[#D8A85B]">
             Daily wellness,
             <br />
             <span>delivered</span>{" "}
@@ -31,7 +31,7 @@ export default function Banner() {
           </h1>
 
           {/* Subtext */}
-          <p className="text-[12px] sm:text-[16px] md:text-[18px] lg:text-[20px] leading-[120%] sm:leading-[24px] md:leading-[28px] font-poppins text-white max-w-[90%] sm:max-w-[500px] md:max-w-[700px] lg:max-w-[800px]">
+          <p className="text-[12px] sm:text-[16px] md:text-[18px] lg:text-[20px] leading-[120%] sm:leading-6 md:leading-7 font-poppins text-white max-w-[90%] sm:max-w-[500px] md:max-w-[700px] lg:max-w-[800px]">
             <span>Premium, science-backed supplements for your dog.</span>
             <br />
             <span>Subscribe today and save 15% on every order.</span>

@@ -26,7 +26,7 @@ export default function Checkout() {
     console.log("Billing Data:", billingData);
   };
   return (
-    <section className="w-full flex flex-col gap-4 md:gap-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 py-4 md:py-10">
+    <section className="w-full flex flex-col gap-4 md:gap-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 py-4 md:py-10 mt-20">
       {/* Breadcrumb Navigation */}
       <div className="flex items-center gap-2 md:gap-3 text-sm md:text-base">
         <Link

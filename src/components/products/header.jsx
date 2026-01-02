@@ -1,15 +1,66 @@
-import React from "react";
-import Products from "./products";
+import React, { useState } from "react";
+import { FaAngleDown } from "react-icons/fa6";
+import ProductCard from "../utils/productCard";
+import { products } from "../../db/products";
 
 export default function ProductsHeader() {
+  const [open, setOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [selected, setSelected] = useState("Latest");
+  const [priceSelected, setPriceSelected] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const options = ["Latest", "Popular"];
+  const priceOptions = ["0-100", "100-200", "200-300", "300-400"];
+
+  const handleSelect = (option) => {
+    setSelected(option);
+    setOpen(false);
+  };
+
+  const handlePriceChange = (range) => {
+    setPriceSelected(
+      (prev) =>
+        prev.includes(range)
+          ? prev.filter((r) => r !== range) // uncheck
+          : [...prev, range] // check
+    );
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // filtering
+  let displayProducts = [...filteredProducts];
+
+  if (priceSelected.length > 0) {
+    displayProducts = displayProducts.filter((product) => {
+      const productPrice = Number(product.price.replace("$", ""));
+
+      return priceSelected.some((range) => {
+        const [min, max] = range.split("-").map(Number);
+        return productPrice >= min && productPrice <= max;
+      });
+    });
+  }
+
+  if (selected === "Latest") {
+    displayProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+  }
+
+  if (selected === "Popular") {
+    displayProducts.sort((a, b) => b.rating - a.rating);
+  }
+
   return (
-    <header className="w-full flex flex-col items-center justify-center py-5  mb-8 gap-12">
-      {/* header */}
+    <header className="w-full flex flex-col items-center justify-center py-5 mb-8 gap-12">
+      {/* HEADER */}
       <div className="flex flex-col gap-7 items-center justify-center px-4 md:px-6 lg:px-0">
-        <h1 className="font-poppins font-bold leading-1 tracking-[0] text-center text-[28px] md:text-[36px] lg:text-[48px] text-[#D8A85B]">
+        <h1 className="font-poppins font-bold text-center text-[28px] md:text-[36px] lg:text-[48px] text-[#D8A85B]">
           Our Products
         </h1>
-        <p className="font-poppins text-[16px]  2xl:text-[20px] tracking-[0] text-center">
+        <p className="font-poppins text-[16px] 2xl:text-[20px] text-center">
           From allergy relief to tummy tamers, explore our range of
           vet-formulated soft chews designed
           <br className="hidden md:block" /> to keep your dog happy and healthy.
@@ -20,7 +71,7 @@ export default function ProductsHeader() {
       <div className="w-full max-w-5xl mx-auto px-4">
         <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4">
           {/* SEARCH BAR */}
-          <div className="flex items-center flex-[3] bg-gray-200 rounded-3xl px-4 py-3 gap-3">
+          <div className="flex items-center flex-3 bg-gray-200 rounded-3xl px-4 py-3 gap-3">
             <svg
               className="w-5 h-5 text-gray-400 shrink-0"
               fill="none"
@@ -38,90 +89,89 @@ export default function ProductsHeader() {
             <input
               type="text"
               placeholder="Search for products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
             />
           </div>
 
-          {/* FILTER  */}
-          <div className="flex flex-[1] items-center gap-2">
-            <select
-              className="
-          flex-1
-          h-11 sm:h-12
-          bg-black
-          text-white
-          rounded-full
-          px-4
-          text-sm sm:text-base
-          font-medium
-          outline-none
-          cursor-pointer
-        "
-            >
-              <option>Latest</option>
-              <option>Popular</option>
-            </select>
-
-            {/* ICON BUTTON (SMALL) */}
-            <button
-              className="
-          w-11 h-11 sm:w-12 sm:h-12
-          bg-black
-          rounded-full
-          flex items-center justify-center
-          flex-shrink-0
-          hover:bg-gray-800
-          transition-colors
-        "
-            >
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+          {/* FILTER DROPDOWN */}
+          {/* FILTER + SORT */}
+          <div className="relative flex items-center gap-3 sm:gap-4">
+            {/* SORT BUTTON */}
+            <div className="relative">
+              <button
+                onClick={() => setOpen(!open)}
+                className="flex items-center gap-2 bg-black text-white px-6 py-3 rounded-3xl text-sm sm:text-base focus:outline-none min-w-[120px] justify-between"
               >
-                {/* Left slider */}
-                <line
-                  x1="4"
-                  y1="4"
-                  x2="4"
-                  y2="14"
-                  strokeWidth="2"
-                  strokeLinecap="round"
+                {selected}
+                <FaAngleDown
+                  className={`text-white transition-transform ${
+                    open ? "rotate-180" : ""
+                  }`}
                 />
-                <circle cx="4" cy="17" r="2" fill="currentColor" />
+              </button>
 
-                {/* Middle slider */}
-                <line
-                  x1="12"
-                  y1="3"
-                  x2="12"
-                  y2="11"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <circle cx="12" cy="14" r="2" fill="currentColor" />
+              {/* DROPDOWN */}
+              {open && (
+                <div className="absolute right-0 mt-2 w-full bg-white rounded-xl shadow-lg overflow-hidden z-50 border">
+                  {options.map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => handleSelect(option)}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition"
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-                {/* Right slider */}
-                <line
-                  x1="20"
-                  y1="6"
-                  x2="20"
-                  y2="16"
-                  strokeWidth="2"
-                  strokeLinecap="round"
+            {/* FILTER ICON */}
+            <div className="relative">
+              <button
+                onClick={() => setFilterOpen(!filterOpen)}
+                className="w-11 h-11 sm:w-12 sm:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+              >
+                <img
+                  src="/icons/filter.png"
+                  alt="Filter"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
                 />
-                <circle cx="20" cy="19" r="2" fill="currentColor" />
-              </svg>
-            </button>
+              </button>
+              {/* DROPDOWN */}
+              {filterOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg z-50 border p-3 space-y-2">
+                  {priceOptions.map((range) => (
+                    <label
+                      key={range}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={priceSelected.includes(range)}
+                        onChange={() => handlePriceChange(range)}
+                      />
+                      <span className="text-sm">{range}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* products  */}
-      <Products />
+      {/* PRODUCTS */}
+      {displayProducts.length === 0 ? (
+        <p className="text-center text-gray-500 mt-10">No products found</p>
+      ) : (
+        <ProductCard products={displayProducts} />
+      )}
 
-      {/* pagination  */}
+      {/* PAGINATION */}
+
       <div className="flex items-center justify-center gap-4 md:gap-6">
         {/* Previous Button */}
         <button className="flex gap-2 items-center p-2 md:p-3 rounded-lg hover:bg-gray-100 transition-colors group">

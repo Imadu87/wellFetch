@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Review from "./review";
-import Products from "../home/products";
+import ProductCard from "../utils/productCard";
+import { products } from "../../db/products";
 
 export default function ProductDetails() {
+  const latestProducts = [...products]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 4);
   return (
     <>
       {/* Main Content */}
@@ -186,8 +190,6 @@ export default function ProductDetails() {
                     </div>
                   </div>
                 </div>
-
-                
               </div>
               {/* Subscription */}
               <div>
@@ -219,7 +221,7 @@ export default function ProductDetails() {
           <h2 className="text-2xl md:text-4xl font-bold text-center">
             You may also like
           </h2>
-            <Products />
+          <ProductCard products={latestProducts} />
         </div>
       </section>
     </>
