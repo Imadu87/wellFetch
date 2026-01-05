@@ -1,7 +1,7 @@
 import React from "react";
 import ReviewCard from "./reviewCard";
 
-export default function Review() {
+export default function Review({ reviews }) {
   return (
     <div className="flex flex-col gap-10 md:gap-20 py-10 md:py-16">
       {/* Header Section */}
@@ -78,14 +78,19 @@ export default function Review() {
         </div>
 
         {/* Review Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
-        </div>
+        </div> */}
+
+        {!reviews || reviews.length === 0 ? (
+          <p className="text-center text-gray-500">No reviews yet</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {reviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </div>
+        )}
 
         {/* Load More */}
         <div className="flex justify-center pt-4">

@@ -12,7 +12,7 @@ export default function ProductCard({ products = [] }) {
           >
             {/* Image */}
             <div className="w-full flex justify-center">
-              <Link to={"/purchasing"}>
+              <Link to={`/purchasing/${product.id}`}>
                 <img
                   src={product.image}
                   alt={product.name}

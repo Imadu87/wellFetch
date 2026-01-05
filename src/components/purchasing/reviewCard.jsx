@@ -1,18 +1,18 @@
 import React from "react";
 
-export default function ReviewCard() {
+export default function ReviewCard({ review  }) {
   return (
     <div className="rounded-xl bg-white border border-gray-200 p-4 md:p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-4 mb-3">
         <div className="flex flex-col  gap-3">
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-base">⭐⭐⭐⭐⭐</span>
-            <span className="text-xs text-gray-600 font-medium">5.0</span>
+            <span className="text-base">{"⭐".repeat(review.rating)}</span>
+            <span className="text-xs text-gray-600 font-medium">{review.rating}.0</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
               <p className="font-semibold text-sm md:text-base text-gray-900">
-                Samantha D.
+                {review.user}.
               </p>
               <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
                 <svg
@@ -28,9 +28,7 @@ export default function ReviewCard() {
               </div>
             </div>
             <p className="text-sm text-gray-700 leading-relaxed mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. The
-              product quality exceeded my expectations and the customer service
-              was outstanding.
+              {review.comment}
             </p>
           </div>
         </div>
@@ -47,7 +45,7 @@ export default function ReviewCard() {
         </button>
       </div>
 
-      <p className="text-xs text-gray-500">Jan 15, 2025</p>
+      <p className="text-xs text-gray-500">{review.date}</p>
     </div>
   );
 }

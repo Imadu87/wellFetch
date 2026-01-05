@@ -11,19 +11,10 @@ export default function ProductDetails() {
     .slice(0, 4);
 
   const { id } = useParams();
+  const product = products.find((p) => p.id === Number(id));
 
-  const product = products.find((item) => item.id === Number(id));
-
-  if (!product) {
-    return (
-      <div className="w-full flex justify-center items-center py-20">
-        <p className="text-gray-500 text-lg">Loading product details...</p>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return null
+  if (!products) {
+    return <p className="text-center mt-30">Products not found.</p>;
   }
   return (
     <>
@@ -64,27 +55,22 @@ export default function ProductDetails() {
             <div className="flex items-center gap-7 md:gap-15">
               {/* sub images */}
               <div className="hidden md:flex flex-col gap-3 lg:gap-3.5 h-64 sm:h-80 lg:h-96 justify-between">
-                {[
-                  product?.subImage1,
-                  product?.subImage2,
-                  product?.subImage3,
-                ].map(
-                  (img, index) =>
-                    img && (
-                      <img
-                        key={index}
-                        src={img}
-                        alt="thumb"
-                        className="w-16 h-16 rounded-xl"
-                      />
-                    )
+                {[product.subImage1, product.subImage2, product.subImage3].map(
+                  (img, index) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt="thumb"
+                      className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 aspect-square object-cover rounded-xl border cursor-pointer border-gray-400 transition"
+                    />
+                  )
                 )}
               </div>
               {/* main image */}
               <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
                 <img
-                  src="/products/product_1.png"
-                  alt="main"
+                  src={product.image}
+                  alt={product.name}
                   className="w-full h-full object-cover object-center rounded-xl border border-gray-400"
                 />
               </div>
@@ -99,15 +85,13 @@ export default function ProductDetails() {
                   {/* name stars price */}
                   <div className="flex flex-col items-start gap-2 md:gap-3 w-full">
                     <h1 className="font-poppins font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                      Allergy Soft Chews
+                      {product.name}
                     </h1>
                     <div className="flex flex-col items-start gap-2 md:gap-3 w-full">
                       <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-                        <span className="text-lg sm:text-xl md:text-2xl">
-                          ⭐⭐⭐⭐⭐
-                        </span>
+                        <span>{"⭐".repeat(product.rating)}</span>
                         <span className="text-xs sm:text-sm md:text-base text-gray-600">
-                          4.5 / 5
+                          {product.rating} / 5
                         </span>
                       </div>
                     </div>
@@ -117,10 +101,10 @@ export default function ProductDetails() {
                   <div className="flex items-center gap-8">
                     <div className="flex items-center gap-3">
                       <span className="text-xl md:text-2xl xl:text-3xl font-bold">
-                        $100
+                        ${product.newPrice}
                       </span>
                       <span className="line-through text-gray-400 text-xl md:text-2xl xl:text-3xl font-bold">
-                        $139
+                        ${product.oldPrice}
                       </span>
                     </div>
                     <div
@@ -128,7 +112,7 @@ export default function ProductDetails() {
                       style={{ backgroundColor: "#FF33331A" }}
                     >
                       <span className="text-[#FF3333] text-xs sm:text-sm md:text-base font-semibold">
-                        -20%
+                        {product.off}
                       </span>
                     </div>
                   </div>
@@ -136,16 +120,13 @@ export default function ProductDetails() {
                   {/* description */}
                   <div className="flex flex-col items-start gap-4 md:gap-6 lg:gap-8">
                     <p className="font-poppins text-sm 2xl:text-xl text-[#00000099]">
-                      Our scientifically formulated Allergy Soft Chews are
-                      designed to help dogs struggling with seasonal allergies.
-                      Packed with Omega-3s and Colostrum, they support a healthy
-                      immune system and maintain normal histamine levels.
+                      {product.description}
                     </p>
                     <div className="flex flex-col gap-2 md:gap-3 lg:gap-4">
                       <h1 className="font-poppins text-xl md:text-2xl ">
                         Key Ingredients
                       </h1>
-                      <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                      {/* <div className="flex items-center gap-3 md:gap-4 flex-wrap">
                         {["Salmon Oil", "Enzymes", "Fibres", "Protein"].map(
                           (item) => (
                             <span
@@ -156,6 +137,17 @@ export default function ProductDetails() {
                             </span>
                           )
                         )}
+                      </div> */}
+
+                      <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                        {product.keyIngredients.map((item) => (
+                          <span
+                            key={item}
+                            className="px-3 py-1 rounded-full bg-[#D8A85B] text-sm"
+                          >
+                            {item}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -184,10 +176,10 @@ export default function ProductDetails() {
                     </div>
                     <div className="flex flex-col items-center gap-2 md:gap-3 shrink-0">
                       <span className="text-base md:text-lg font-semibold text-[#FF3333]">
-                        $85
+                        ${product.newPrice}
                       </span>
                       <span className="line-through text-base md:text-lg text-[#4A4A4A]">
-                        $100
+                        ${product.oldPrice}
                       </span>
                     </div>
                   </div>
@@ -209,7 +201,7 @@ export default function ProductDetails() {
                     </div>
                     <div className="flex items-center gap-2 md:gap-3 shrink-0">
                       <span className="text-base md:text-lg font-semibold text-black">
-                        $139
+                        ${product.oldPrice}
                       </span>
                     </div>
                   </div>
@@ -239,7 +231,7 @@ export default function ProductDetails() {
           </div>
         </div>
         {/* review */}
-        <Review />
+        <Review reviews={product.reviews}/>
         {/* products */}
         <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
           <h2 className="text-2xl md:text-4xl font-bold text-center">
