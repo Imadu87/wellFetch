@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import ProductCard from "../utils/productCard";
 import { products } from "../../db/products";
@@ -9,9 +9,11 @@ export default function ProductsHeader() {
   const [selected, setSelected] = useState("Latest");
   const [priceSelected, setPriceSelected] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const options = ["Latest", "Popular"];
   const priceOptions = ["0-100", "100-200", "200-300", "300-400"];
+  const ITEMS_PER_PAGE = 8;
 
   const handleSelect = (option) => {
     setSelected(option);
@@ -52,6 +54,22 @@ export default function ProductsHeader() {
   if (selected === "Popular") {
     displayProducts.sort((a, b) => b.rating - a.rating);
   }
+
+  // pagination
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selected, priceSelected]);
+
+  const totalPages = Math.ceil(displayProducts.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+
+  const paginatedProducts = displayProducts.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [currentPage]);
 
   return (
     <header className="w-full flex flex-col items-center justify-center py-5 mb-8 gap-12">
@@ -167,14 +185,18 @@ export default function ProductsHeader() {
       {displayProducts.length === 0 ? (
         <p className="text-center text-gray-500 mt-10">No products found</p>
       ) : (
-        <ProductCard products={displayProducts} />
+        <ProductCard products={paginatedProducts} />
       )}
 
       {/* PAGINATION */}
 
       <div className="flex items-center justify-center gap-4 md:gap-6">
         {/* Previous Button */}
-        <button className="flex gap-2 items-center p-2 md:p-3 rounded-lg hover:bg-gray-100 transition-colors group">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+          className="flex gap-2 items-center p-2 md:p-3 rounded-lg hover:bg-gray-100 disabled:opacity-40"
+        >
           <svg
             className="w-5 h-5 md:w-6 md:h-6 text-gray-600 group-hover:text-gray-800"
             fill="none"
@@ -193,45 +215,31 @@ export default function ProductsHeader() {
 
         {/* Page Numbers */}
         <div className="flex items-center gap-2">
-          {/* Page 1 - Active */}
-          <button
-            className="w-9 h-9 md:w-10 md:h-10 rounded-lg font-semibold text-sm md:text-base flex items-center justify-center transition-colors"
-            style={{ backgroundColor: "#0000000F", color: "#000" }}
-          >
-            1
-          </button>
-
-          {/* Page 2 */}
-          <button className="hidden md:flex w-9 h-9 md:w-10 md:h-10 rounded-lg font-semibold text-sm md:text-base text-gray-600 hover:bg-gray-100 items-center justify-center transition-colors">
-            2
-          </button>
-
-          {/* Page 3 */}
-          <button className="hidden md:flex w-9 h-9 md:w-10 md:h-10 rounded-lg font-semibold text-sm md:text-base text-gray-600 hover:bg-gray-100 items-center justify-center transition-colors">
-            3
-          </button>
-
-          {/* Dots */}
-          <span className="text-gray-400 text-lg font-light">...</span>
-
-          {/* Page 8 */}
-          <button className="hidden md:flex w-9 h-9 md:w-10 md:h-10 rounded-lg font-semibold text-sm md:text-base text-gray-600 hover:bg-gray-100 items-center justify-center transition-colors">
-            8
-          </button>
-
-          {/* Page 9 */}
-          <button className="hidden md:flex w-9 h-9 md:w-10 md:h-10 rounded-lg font-semibold text-sm md:text-base text-gray-600 hover:bg-gray-100 items-center justify-center transition-colors">
-            9
-          </button>
-
-          {/* Page 10 */}
-          <button className="w-9 h-9 md:w-10 md:h-10 rounded-lg font-semibold text-sm md:text-base text-gray-600 hover:bg-gray-100 flex items-center justify-center transition-colors">
-            10
-          </button>
+          {[...Array(totalPages)].map((_, index) => {
+            const page = index + 1;
+            return (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-9 h-9 md:w-10 md:h-10 rounded-lg font-semibold text-sm md:text-base flex items-center justify-center transition-colors
+          ${
+            currentPage === page
+              ? "bg-black/10 text-black"
+              : "text-gray-600 hover:bg-gray-100"
+          }`}
+              >
+                {page}
+              </button>
+            );
+          })}
         </div>
 
         {/* Next Button */}
-        <button className="flex gap-2 p-2 md:p-3 rounded-lg hover:bg-gray-100 transition-colors group">
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+          className="flex gap-2 p-2 md:p-3 rounded-lg hover:bg-gray-100 disabled:opacity-40"
+        >
           <span>Next</span>
 
           <svg

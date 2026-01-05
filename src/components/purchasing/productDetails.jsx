@@ -3,11 +3,28 @@ import { Link } from "react-router-dom";
 import Review from "./review";
 import ProductCard from "../utils/productCard";
 import { products } from "../../db/products";
+import { useParams } from "react-router-dom";
 
 export default function ProductDetails() {
   const latestProducts = [...products]
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 4);
+
+  const { id } = useParams();
+
+  const product = products.find((item) => item.id === Number(id));
+
+  if (!product) {
+    return (
+      <div className="w-full flex justify-center items-center py-20">
+        <p className="text-gray-500 text-lg">Loading product details...</p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return null
+  }
   return (
     <>
       {/* Main Content */}
@@ -47,14 +64,21 @@ export default function ProductDetails() {
             <div className="flex items-center gap-7 md:gap-15">
               {/* sub images */}
               <div className="hidden md:flex flex-col gap-3 lg:gap-3.5 h-64 sm:h-80 lg:h-96 justify-between">
-                {["1", "2", "3"].map((i) => (
-                  <img
-                    key={i}
-                    src={"/products/product_1.png"}
-                    alt="main"
-                    className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 aspect-square object-cover rounded-xl border cursor-pointer border-gray-400 transition"
-                  />
-                ))}
+                {[
+                  product?.subImage1,
+                  product?.subImage2,
+                  product?.subImage3,
+                ].map(
+                  (img, index) =>
+                    img && (
+                      <img
+                        key={index}
+                        src={img}
+                        alt="thumb"
+                        className="w-16 h-16 rounded-xl"
+                      />
+                    )
+                )}
               </div>
               {/* main image */}
               <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">

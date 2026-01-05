@@ -29,7 +29,7 @@ export default function ProductCard({ products = [] }) {
                 </h4>
 
                 <p className="font-poppins font-semibold text-[20px] leading-[100%]">
-                  ${product.price}
+                  ${product.newPrice}
                 </p>
               </div>
 
