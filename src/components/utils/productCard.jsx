@@ -5,6 +5,11 @@ import { addToCart } from "../../redux/slices/cartSlice";
 
 export default function ProductCard({ products = [] }) {
   const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <div className="w-full px-4 md:px-6 lg:px-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -38,7 +43,7 @@ export default function ProductCard({ products = [] }) {
 
               {/* Button */}
               <button
-                onClick={() => dispatch(addToCart(product))}
+                onClick={() => handleAddToCart(product)}
                 className="w-[130px] h-[33px] px-[20px] py-[6px] flex items-center justify-center gap-[10px] rounded-[24px] border border-[#A37E65] text-[#A37E65] font-poppins font-semibold text-[14px] leading-[100%] hover:bg-[#A37E65] hover:text-white transition"
               >
                 Add to Cart

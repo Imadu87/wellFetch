@@ -1,7 +1,30 @@
 import React from "react";
 import { Link, Links } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  increaseQuantity,
+  decreaseQuantity,
+  removeFromCart,
+} from "../redux/slices/cartSlice";
+import EmptyCart from "../utils/emptyCart";
 
 export default function Cart() {
+  const { items, totalQuantity } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  if (items.length === 0)
+    return <EmptyCart />
+
+  const subtotal = items.reduce(
+    (acc, item) => acc + Number(item.newPrice) * item.quantity,
+    0
+  );
+
+  const discountPercentage = 20;
+  const deliveryFee = 20;
+  const discountAmount = (subtotal * discountPercentage) / 100;
+  const total = subtotal - discountAmount + deliveryFee;
+
   return (
     <section className="w-full flex flex-col gap-4 md:gap-8 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 py-4 md:py-10 mt-20">
       {/* Breadcrumb Navigation */}
@@ -39,36 +62,42 @@ export default function Cart() {
               Your Cart
             </h2>
             {/* image and details */}
-            <div className="flex gap-4 md:gap-6 lg:gap-8">
-              <div className="flex">
-                <img
-                  src="/products/product_1.png"
-                  alt="Product"
-                  className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg"
-                />
-              </div>
-              <div className="flex items-center justify-between w-full">
-                  {/* left side details */}
-                <div className="flex flex-col justify-between flex-1">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="font-semibold text-lg md:text-xl lg:text-2xl">
-                      Allergy Soft Chews
-                    </h3>
-                    <p className="text-gray-600 text-sm md:text-base lg:text-lg">
-                      Quantity: 2
-                    </p>
-                    <p className="text-gray-600 text-sm md:text-base lg:text-lg">
-                      Net wt: 300g
-                    </p>
-                  </div>
-                  <h2 className="font-bold text-lg md:text-xl lg:text-2xl">
-                    $565
-                  </h2>
+            {items.map((item) => (
+              <div key={item.id} className="flex gap-4 md:gap-6 lg:gap-8">
+                {/* Product Image */}
+                <div className="flex">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg"
+                  />
                 </div>
 
-                  {/* right side remove button and quantity increase */}
+                {/* Details and Quantity */}
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex flex-col justify-between flex-1">
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-lg md:text-xl lg:text-2xl">
+                        {item.name}
+                      </h3>
+                      <p className="text-gray-600 text-sm md:text-base lg:text-lg">
+                        Quantity: {item.quantity}
+                      </p>
+                      <p className="text-gray-600 text-sm md:text-base lg:text-lg">
+                        Net wt: {item.netWeight}
+                      </p>
+                    </div>
+                    <h2 className="font-bold text-lg md:text-xl lg:text-2xl">
+                      ${(Number(item.newPrice) * item.quantity).toFixed(2)}
+                    </h2>
+                  </div>
+
+                  {/* Remove / Quantity Controls */}
                   <div className="flex flex-col items-center justify-between gap-4 ml-4">
-                    <button className="text-red-500 hover:text-red-700 transition-colors">
+                    <button
+                      onClick={() => dispatch(removeFromCart(item.id))}
+                      className="text-red-500 hover:text-red-700 transition-colors"
+                    >
                       <svg
                         className="w-6 h-6"
                         fill="none"
@@ -83,14 +112,28 @@ export default function Cart() {
                         />
                       </svg>
                     </button>
+
                     <div className="flex items-center gap-3 bg-gray-100 rounded-lg px-3 py-2">
-                      <button className="text-gray-600 hover:text-gray-900 font-bold text-lg">-</button>
-                      <span className="text-sm md:text-base font-semibold min-w-[24px] text-center">6</span>
-                      <button className="text-gray-600 hover:text-gray-900 font-bold text-lg">+</button>
+                      <button
+                        className="text-gray-600 hover:text-gray-900 font-bold text-lg"
+                        onClick={() => dispatch(decreaseQuantity(item.id))}
+                      >
+                        -
+                      </button>
+                      <span className="text-sm md:text-base font-semibold min-w-[24px] text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        className="text-gray-600 hover:text-gray-900 font-bold text-lg"
+                        onClick={() => dispatch(increaseQuantity(item.id))}
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -98,33 +141,47 @@ export default function Cart() {
         <div className="w-full lg:w-96 border border-[#0000001A] rounded-lg p-4 md:p-6 h-fit">
           <div className="flex flex-col gap-4 md:gap-5">
             <h3 className="font-bold text-xl md:text-2xl">Order Summary</h3>
-            
+
             {/* Order Details */}
             <div className="flex flex-col gap-3 border-b border-gray-200 pb-4">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600 text-sm md:text-base">Subtotal</span>
-                <span className="font-semibold text-sm md:text-base">$565</span>
+                <span className="text-gray-600 text-sm md:text-base">
+                  Subtotal
+                </span>
+                <span className="font-semibold text-sm md:text-base">
+                  ${subtotal.toFixed(2)}
+                </span>
               </div>
               <div className="flex justify-between items-center text-gray-600">
                 <span className="text-sm md:text-base">Discount (-20%)</span>
-                <span className="font-semibold text-sm md:text-base text-[#FF3333]">-$113</span>
+                <span className="font-semibold text-sm md:text-base text-[#FF3333]">
+                  -${discountAmount.toFixed(2)}
+                </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600 text-sm md:text-base">Delivery Fee</span>
-                <span className="font-semibold text-sm md:text-base">$20</span>
+                <span className="text-gray-600 text-sm md:text-base">
+                  Delivery Fee
+                </span>
+                <span className="font-semibold text-sm md:text-base">
+                  ${deliveryFee.toFixed(2)}
+                </span>
               </div>
             </div>
 
             {/* Total */}
             <div className="flex justify-between items-center pt-2">
               <span className="font-bold text-lg md:text-xl">Total</span>
-              <span className="font-bold text-lg md:text-xl">$472</span>
+              <span className="font-bold text-lg md:text-xl">
+                ${total.toFixed(2)}
+              </span>
             </div>
 
             {/* Promo Code */}
             <div className="flex gap-2">
               <div className="flex-1 relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🏷️</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+                  🏷️
+                </span>
                 <input
                   type="text"
                   placeholder="Promo code"
@@ -138,12 +195,22 @@ export default function Cart() {
 
             {/* Checkout Button */}
             <Link to="/checkout">
-            <button className="w-full bg-black text-white font-bold py-3 md:py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
-              Go to Checkout
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </button>
+              <button className="w-full bg-black text-white font-bold py-3 md:py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
+                Go to Checkout
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </button>
             </Link>
           </div>
         </div>
