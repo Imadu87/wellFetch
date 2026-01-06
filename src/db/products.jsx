@@ -10,6 +10,7 @@ export const products = [
     newPrice: "22.93",
     oldPrice: "27.00",
     off: "-20%",
+    netWeight: "300g",
     description:
       "Our scientifically formulated Allergy Soft Chews are designed to help dogs struggling with seasonal allergies.",
     keyIngredients: ["Salmon Oil, Enzymes, Fibres, Protein"],
@@ -58,6 +59,7 @@ export const products = [
     newPrice: "22.93",
     oldPrice: "27.00",
     off: "-20%",
+    netWeight: "250g",
     description:
       "Our scientifically formulated Allergy Soft Chews are designed to help dogs struggling with seasonal allergies.",
     keyIngredients: ["Salmon Oil, Enzymes, Fibres, Protein"],

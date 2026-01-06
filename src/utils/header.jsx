@@ -11,6 +11,8 @@ export default function Header() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+
   const menuItems = [
     { label: "Home", path: "/" },
     { label: "Shop", path: "/shop" },
@@ -123,10 +125,21 @@ export default function Header() {
             )}
 
             {/* CART */}
-            <Link to="/cart">
-              <button className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
-                <img src="/icons/cart.png" alt="Cart" className="w-6  h-6" />
+            <Link to="/cart" className="relative">
+              <button className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-md hover:shadow-lg transition">
+                <img
+                  src="/icons/cart.png"
+                  alt="Cart"
+                  className="w-6 h-6 sm:w-7 sm:h-7"
+                />
               </button>
+
+              {/* BADGE */}
+              {totalQuantity > 0 && (
+                <span className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-[10px] sm:text-xs w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center font-bold shadow">
+                  {totalQuantity}
+                </span>
+              )}
             </Link>
           </div>
 

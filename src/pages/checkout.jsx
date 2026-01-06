@@ -323,7 +323,7 @@ export default function Checkout() {
             </div>
 
             {/* Checkout Button */}
-            <Link to="/checkout">
+            <Link to="/order">
               <button className="w-full bg-black text-white font-bold py-3 md:py-4 rounded-2xl transition-colors flex items-center justify-center gap-2">
                 Place Order
                 <svg
