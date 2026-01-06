@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Checkout() {
   const [billingData, setBillingData] = useState({
@@ -25,6 +26,19 @@ export default function Checkout() {
     e.preventDefault();
     console.log("Billing Data:", billingData);
   };
+
+  const { items, totalQuantity } = useSelector((state) => state.cart);
+
+  const subtotal = items.reduce(
+    (acc, item) => acc + Number(item.newPrice) * item.quantity,
+    0
+  );
+
+  const discountPercentage = 20;
+  const deliveryFee = 20;
+  const discountAmount = (subtotal * discountPercentage) / 100;
+  const total = subtotal - discountAmount + deliveryFee;
+
   return (
     <section className="w-full flex flex-col gap-4 md:gap-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 py-4 md:py-10 mt-20">
       {/* Breadcrumb Navigation */}
@@ -238,26 +252,26 @@ export default function Checkout() {
                 <span className="text-gray-600 text-sm md:text-base">
                   Subtotal
                 </span>
-                <span className="font-semibold text-sm md:text-base">$565</span>
+                <span className="font-semibold text-sm md:text-base">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center text-gray-600">
                 <span className="text-sm md:text-base">Discount (-20%)</span>
                 <span className="font-semibold text-sm md:text-base text-[#FF3333]">
-                  -$113
+                  -${discountAmount.toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600 text-sm md:text-base">
                   Delivery Fee
                 </span>
-                <span className="font-semibold text-sm md:text-base">$20</span>
+                <span className="font-semibold text-sm md:text-base">${deliveryFee}</span>
               </div>
             </div>
 
             {/* Total */}
             <div className="flex justify-between items-center pt-2">
               <span className="font-bold text-lg md:text-xl">Total</span>
-              <span className="font-bold text-lg md:text-xl">$472</span>
+              <span className="font-bold text-lg md:text-xl">${total}</span>
             </div>
 
             {/* Promo Code */}
@@ -278,12 +292,11 @@ export default function Checkout() {
             </div>
 
             {/* bank or cash on delivery */}
-           
 
             <div className="flex flex-col gap-4">
               {/* Bank Transfer Option */}
               <div className="flex items-center gap-2 mb-4 justify-between">
-                <div className="flex gap-2 items-center" >
+                <div className="flex gap-2 items-center">
                   <input
                     type="radio"
                     id="bank"
