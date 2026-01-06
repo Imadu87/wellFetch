@@ -126,7 +126,7 @@ export default function ProductDetails() {
                       <h1 className="font-poppins text-xl md:text-2xl ">
                         Key Ingredients
                       </h1>
-                      {/* <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                      <div className="flex items-center gap-3 md:gap-4 flex-wrap">
                         {["Salmon Oil", "Enzymes", "Fibres", "Protein"].map(
                           (item) => (
                             <span
@@ -137,9 +137,9 @@ export default function ProductDetails() {
                             </span>
                           )
                         )}
-                      </div> */}
+                      </div>
 
-                      <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                      {/* <div className="flex items-center gap-3 md:gap-4 flex-wrap">
                         {product.keyIngredients.map((item) => (
                           <span
                             key={item}
@@ -148,7 +148,7 @@ export default function ProductDetails() {
                             {item}
                           </span>
                         ))}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

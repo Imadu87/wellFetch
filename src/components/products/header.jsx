@@ -38,7 +38,8 @@ export default function ProductsHeader() {
 
   if (priceSelected.length > 0) {
     displayProducts = displayProducts.filter((product) => {
-      const productPrice = Number(product.price.replace("$", ""));
+      if (!product.newPrice) return false;
+      const productPrice = Number(product.newPrice);
 
       return priceSelected.some((range) => {
         const [min, max] = range.split("-").map(Number);
@@ -87,11 +88,11 @@ export default function ProductsHeader() {
 
       {/* SEARCH + FILTER */}
       <div className="w-full max-w-5xl mx-auto px-4">
-        <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 w-full">
           {/* SEARCH BAR */}
-          <div className="flex items-center flex-3 bg-gray-200 rounded-3xl px-4 py-3 gap-3">
+          <div className="flex items-center flex-1 bg-gray-200 rounded-3xl px-3 sm:px-4 py-2.5 sm:py-3 gap-2">
             <svg
-              className="w-5 h-5 text-gray-400 shrink-0"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -106,77 +107,67 @@ export default function ProductsHeader() {
 
             <input
               type="text"
-              placeholder="Search for products..."
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
             />
           </div>
 
-          {/* FILTER DROPDOWN */}
-          {/* FILTER + SORT */}
-          <div className="relative flex items-center gap-3 sm:gap-4">
-            {/* SORT BUTTON */}
-            <div className="relative">
-              <button
-                onClick={() => setOpen(!open)}
-                className="flex items-center gap-2 bg-black text-white px-6 py-3 rounded-3xl text-sm sm:text-base focus:outline-none min-w-[120px] justify-between"
-              >
-                {selected}
-                <FaAngleDown
-                  className={`text-white transition-transform ${
-                    open ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
+          {/* SORT BUTTON */}
+          <div className="relative shrink-0">
+            <button
+              onClick={() => setOpen(!open)}
+              className="flex items-center gap-1.5 bg-black text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-3xl text-sm sm:text-base min-w-[90px] sm:min-w-[120px] justify-between"
+            >
+              {selected}
+              <FaAngleDown
+                className={`transition-transform ${open ? "rotate-180" : ""}`}
+              />
+            </button>
 
-              {/* DROPDOWN */}
-              {open && (
-                <div className="absolute right-0 mt-2 w-full bg-white rounded-xl shadow-lg overflow-hidden z-50 border">
-                  {options.map((option) => (
-                    <button
-                      key={option}
-                      onClick={() => handleSelect(option)}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition"
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            {open && (
+              <div className="absolute right-0 mt-2 w-full bg-white rounded-xl shadow-lg z-50 border">
+                {options.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => handleSelect(option)}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
-            {/* FILTER ICON */}
-            <div className="relative">
-              <button
-                onClick={() => setFilterOpen(!filterOpen)}
-                className="w-11 h-11 sm:w-12 sm:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
-              >
-                <img
-                  src="/icons/filter.png"
-                  alt="Filter"
-                  className="w-5 h-5 sm:w-6 sm:h-6"
-                />
-              </button>
-              {/* DROPDOWN */}
-              {filterOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg z-50 border p-3 space-y-2">
-                  {priceOptions.map((range) => (
-                    <label
-                      key={range}
-                      className="flex items-center gap-2 cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={priceSelected.includes(range)}
-                        onChange={() => handlePriceChange(range)}
-                      />
-                      <span className="text-sm">{range}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
+          {/* FILTER ICON */}
+          <div className="relative shrink-0">
+            <button
+              onClick={() => setFilterOpen(!filterOpen)}
+              className="w-10 h-10 sm:w-12 sm:h-12 bg-black rounded-full flex items-center justify-center"
+            >
+              <img
+                src="/icons/filter.png"
+                alt="Filter"
+                className="w-4 h-4 sm:w-6 sm:h-6"
+              />
+            </button>
+
+            {filterOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg z-50 border p-3 space-y-2">
+                {priceOptions.map((range) => (
+                  <label key={range} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={priceSelected.includes(range)}
+                      onChange={() => handlePriceChange(range)}
+                    />
+                    <span className="text-sm">{range}</span>
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
